@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,42 +11,100 @@
       background-color: #000;
       color: #ffd700;
       text-align: center;
-      padding: 50px 20px;
+      padding: 30px 15px;
     }
     .logo {
-      width: 160px;
+      width: 140px;
       margin: 20px auto;
     }
     h1 {
-      font-size: 3em;
-      margin: 0.3em 0;
+      font-size: 2.5em;
+      margin-bottom: 10px;
     }
-    p {
+    .subtitle {
       font-size: 1.2em;
-      line-height: 1.6;
+      margin-bottom: 30px;
     }
-    .button {
-      display: inline-block;
-      margin-top: 30px;
+    .product {
+      background-color: #111;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+    }
+    .product img {
+      width: 120px;
+      margin-bottom: 15px;
+    }
+    .product-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .product-price {
+      margin-bottom: 15px;
+    }
+    .add-to-cart {
       background-color: #ffd700;
       color: #000;
-      padding: 15px 30px;
-      font-size: 1.1em;
-      border-radius: 30px;
-      text-decoration: none;
-      transition: 0.3s;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1em;
     }
-    .button:hover {
+    .cart {
+      margin-top: 40px;
+    }
+    .checkout {
+      margin-top: 20px;
+      display: inline-block;
       background-color: #fff;
       color: #000;
+      padding: 10px 25px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
   <img src="logo.png" alt="JAWA Logo" class="logo" />
   <h1>JAWA Perfumes</h1>
-  <p>Luxury Fragrances Made in UAE</p>
-  <p>Unique collections crafted with passion and precision, blending elegance with long-lasting impressions.</p>
-  <a class="button" href="https://wa.me/971544548922" target="_blank">اطلب عطرك الآن عبر واتساب</a>
+  <p class="subtitle">Luxury Fragrances Made in UAE</p>
+
+  <div class="product">
+    <img src="perfume1.png" alt="Perfume 1">
+    <div class="product-title">Seductive Blossom</div>
+    <div class="product-price">AED 60</div>
+    <button class="add-to-cart" onclick="addToCart('Seductive Blossom', 60)">أضف إلى السلة</button>
+  </div>
+
+  <div class="product">
+    <img src="perfume2.png" alt="Perfume 2">
+    <div class="product-title">Blue Desire</div>
+    <div class="product-price">AED 70</div>
+    <button class="add-to-cart" onclick="addToCart('Blue Desire', 70)">أضف إلى السلة</button>
+  </div>
+
+  <div class="cart" id="cart"></div>
+  <a id="checkoutLink" href="#" class="checkout" style="display:none">اطلب الآن عبر واتساب</a>
+
+  <script>
+    let cartItems = [];
+    function addToCart(name, price) {
+      cartItems.push({name, price});
+      let cartHTML = '<h2>سلة المشتريات</h2>';
+      cartItems.forEach((item, index) => {
+        cartHTML += `<p>${index + 1}- ${item.name} - AED ${item.price}</p>`;
+      });
+      document.getElementById('cart').innerHTML = cartHTML;
+
+      const message = cartItems.map((item, i) => `${i + 1}- ${item.name} - AED ${item.price}`).join('%0A');
+      const link = `https://wa.me/971544548922?text=مرحباً، أود شراء:%0A${message}`;
+      document.getElementById('checkoutLink').href = link;
+      document.getElementById('checkoutLink').style.display = 'inline-block';
+    }
+  </script>
 </body>
 </html>
