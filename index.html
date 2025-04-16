@@ -10,108 +10,112 @@
       background-color: #000;
       color: #ffd700;
       text-align: center;
-      padding: 30px 15px;
+      padding: 30px 20px;
     }
     .product {
-      background: #111;
+      background-color: #111;
+      border-radius: 10px;
       padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 12px;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 400px;
     }
-    img {
-      width: 100px;
-      margin: 10px auto;
-      display: block;
+    .product img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 10px;
     }
-    h1 {
-      font-size: 2.5em;
-    }
-    h2 {
-      color: #ffd700;
-      margin: 10px 0 5px;
-    }
-    input[type="number"] {
-      padding: 5px;
-      width: 60px;
+    .product select,
+    .product button {
+      margin-top: 10px;
+      padding: 10px;
       font-size: 1em;
-      margin: 10px;
+      border: none;
+      border-radius: 8px;
     }
-    button {
+    .product button {
       background-color: #ffd700;
       color: #000;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 25px;
-      font-size: 1em;
       cursor: pointer;
     }
-    button:hover {
-      background: #fff;
+    .product button:hover {
+      background-color: #fff;
     }
     .cart {
-      margin-top: 30px;
-      padding: 15px;
-      background: #111;
-      border-radius: 10px;
+      margin-top: 40px;
     }
-    .whatsapp-button {
+    .cart ul {
+      list-style: none;
+      padding: 0;
+    }
+    .cart ul li {
+      margin: 8px 0;
+    }
+    .whatsapp-btn {
+      display: inline-block;
+      margin-top: 30px;
       background-color: #fff;
       color: #000;
-      padding: 12px 20px;
-      margin-top: 15px;
+      padding: 12px 25px;
+      font-size: 1.1em;
       border-radius: 30px;
-      display: inline-block;
       text-decoration: none;
-      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <img src="logo.png" alt="JAWA Logo" class="logo" width="130">
+  <img src="logo.png" alt="JAWA Logo" style="width: 120px;" />
   <h1>JAWA Perfumes</h1>
   <p>Luxury Fragrances Made in UAE</p>  <div class="product">
-    <h3>Perfume 1</h3>
-    <img src="seductive.png" alt="Seductive Blossom">
-    <h2>Seductive Blossom</h2>
+    <h3>Seductive Blossom</h3>
     <p>AED 60</p>
-    <input type="number" id="qty1" value="1" min="1">
+    <label for="qty1">الكمية:</label>
+    <select id="qty1">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5q">5</option>
+    </select>
+    <br />
     <button onclick="addToCart('Seductive Blossom', 60, 'qty1')">أضف إلى السلة</button>
   </div>  <div class="product">
-    <h3>Perfume 2</h3>
-    <img src="blue.png" alt="Blue Desire">
-    <h2>Blue Desire</h2>
+    <h3>Blue Desire</h3>
     <p>AED 70</p>
-    <input type="number" id="qty2" value="1" min="1">
+    <label for="qty2">الكمية:</label>
+    <select id="qty2">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <br />
     <button onclick="addToCart('Blue Desire', 70, 'qty2')">أضف إلى السلة</button>
   </div>  <div class="cart">
     <h2>سلة المشتريات</h2>
-    <ul id="cartItems"></ul>
-    <a id="whatsappLink" class="whatsapp-button" target="_blank">اطلب الآن عبر واتساب</a>
+    <ul id="cart-list"></ul>
+    <a id="whatsapp-link" class="whatsapp-btn" href="#" target="_blank">اطلب الآن عبر واتساب</a>
   </div>  <script>
-    let cart = [];
+    let cartItems = [];
 
     function addToCart(name, price, qtyId) {
-      const qty = parseInt(document.getElementById(qtyId).value);
-      for (let i = 0; i < qty; i++) {
-        cart.push({ name, price });
-      }
+      const quantity = parseInt(document.getElementById(qtyId).value);
+      const item = `${name} x${quantity} - AED ${price * quantity}`;
+      cartItems.push(item);
       updateCart();
     }
 
     function updateCart() {
-      const list = document.getElementById("cartItems");
+      const list = document.getElementById("cart-list");
       list.innerHTML = "";
-      let waMsg = "مرحبا، أود طلب العطور التالية:%0A";
-
-      cart.forEach((item, index) => {
+      cartItems.forEach(item => {
         const li = document.createElement("li");
-        li.textContent = `${index + 1} - ${item.name} - AED ${item.price}`;
+        li.textContent = item;
         list.appendChild(li);
-        waMsg += `• ${item.name} - AED ${item.price}%0A`;
       });
-
-      document.getElementById("whatsappLink").href =
-        "https://wa.me/971544548922?text=" + waMsg;
+      const message = encodeURIComponent(cartItems.join("\n"));
+      document.getElementById("whatsapp-link").href = `https://wa.me/971544548922?text=${message}`;
     }
   </script></body>
 </html>
